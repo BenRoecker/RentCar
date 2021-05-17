@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ClientDAO {
 
- private String Alphabetic = "SELECT * FROM rentcar.clients order by clients.Prenom_client";
+ private String[] REQUETES = {"SELECT * FROM rentcar.clients order by clients.Prenom_client","SELECT * FROM rentcar.clients Where clients.Nom_client = \""};
 
 
  public ClientList requete(String requete, String argument){
@@ -14,7 +14,7 @@ public class ClientDAO {
   Connection con = data.getConnection();
   try{
    Statement stmt = con.createStatement();
-   ResultSet res = stmt.executeQuery(Alphabetic);
+   ResultSet res = stmt.executeQuery(REQUETES[1] + argument + "\"");
    while(res.next()){
     Adresse adresse = new Adresse(res.getString(5), res.getString(6), res.getInt(7));
     rendu.add(new Client(res.getString(2), res.getString(3), res.getString(4), adresse, res.getInt(8)));
