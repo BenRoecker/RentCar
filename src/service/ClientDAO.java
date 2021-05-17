@@ -5,7 +5,8 @@ import java.util.*;
 
 public class ClientDAO {
 
- private String[] REQUETES = {"SELECT * FROM rentcar.clients order by clients.Prenom_client","SELECT * FROM rentcar.clients Where clients.Nom_client = \""};
+ private String[] REQUETES = {"SELECT * FROM rentcar.clients order by clients.Prenom_client",
+ "SELECT * FROM rentcar.clients Where clients.Nom_client = \""};
 
 
  public ClientList requete(String requete, String argument){
@@ -21,7 +22,6 @@ public class ClientDAO {
    }
   }catch(SQLException e){
    System.out.println(e.getMessage());
- 
   }
   return new ClientList(rendu);
   
