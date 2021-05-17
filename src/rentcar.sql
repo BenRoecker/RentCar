@@ -128,4 +128,6 @@ SELECT
   *
 FROM
   Clients;
-  
+
+CREATE USER 'Administrateur' @'localhost' IDENTIFIED BY 'Administrateur';
+GRANT ALL PRIVILEGES ON * TO 'Administrateur' @'localhost';
