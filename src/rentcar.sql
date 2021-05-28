@@ -9,125 +9,131 @@
 DROP DATABASE IF EXISTS rentcar;
 CREATE DATABASE rentcar;
 USE rentcar;
-DROP DATABASE IF EXISTS Clients;
-DROP DATABASE IF EXISTS Programme;
-DROP DATABASE IF EXISTS Vehicule;
-DROP DATABASE IF EXISTS Employe;
-DROP DATABASE IF EXISTS Agence;
-create table Clients (
-  No_Client NUMERIC(10) NOT NULL,
-  Nom_Client VARCHAR(25) NOT NULL,
-  Prenom_Client VARCHAR(25) NOT NULL,
-  Email_Client VARCHAR(65) NOT NULL,
-  Rue_Client VARCHAR(85) NOT NULL,
-  Ville_Client VARCHAR(45) NOT NULL,
-  Code_Postal_Client NUMERIC(5) NOT NULL,
-  Numero_Telephone_Client VARCHAR(15) NOT NULL,
-  CONSTRAINT PK_Clients PRIMARY KEY (No_Client)
-) engine = InnoDB;
-create table Programme (
-  Dur é e NUMERIC(2) NOT NULL,
-  Descr VARCHAR(300),
-  Prix NUMERIC(5, 2) NOT NULL,
-  Taux_Reduc NUMERIC(3),
-  Date_Souscription DATE,
-  No_Client NUMERIC(10) NOT NULL,
-  CONSTRAINT PK_Programme PRIMARY KEY (No_Client, Date_Souscription),
-  CONSTRAINT FK_Programme_Clients FOREIGN KEY (No_Client) REFERENCES Clients(No_Client)
-) engine = InnoDB;
-create table Vehicule (
-  Matricule VARCHAR(9) NOT NULL,
-  Marque VARCHAR(25) NOT NULL,
-  Modele VARCHAR(25) NOT NULL,
-  Kilometrage NUMERIC(7),
-  Boite_a_vitesse VARCHAR(11) NOT NULL,
-  -- Automatique ou Manuelle
-  Climatisation VARCHAR(13) NOT NULL,
-  -- Climatisé ou Non climatisé
-  Type_Carburant VARCHAR(20) NOT NULL,
-  Categorie VARCHAR(10) NOT NULL,
-  -- Economique, confort ou Luxe
-  No_Client NUMERIC(10) NOT NULL,
-  Date_Souscription DATE,
-  CONSTRAINT PK_Vehicule PRIMARY KEY (Matricule),
-  CONSTRAINT FK_Vehicule_Clients FOREIGN KEY (No_Client) REFERENCES Clients(No_Client)
-) engine = InnoDB;
-create table Employe (
-  Nom_Employe VARCHAR(25) NOT NULL,
-  Prenom_Employe VARCHAR(25) NOT NULL,
-  Email_Employe VARCHAR(65) NOT NULL,
-  Rue_Employe VARCHAR(85) NOT NULL,
-  Ville_Employe VARCHAR(45) NOT NULL,
-  Code_Postal_Employe NUMERIC(5) NOT NULL,
-  Numero_Telephone_Employe VARCHAR(15) NOT NULL,
-  Login VARCHAR(15) NOT NULL,
-  Mot_de_passe VARCHAR(55) NOT NULL,
-  Categorie_Employe VARCHAR(9) NOT NULL,
-  -- Agenceur ou Chauffeur
-  CONSTRAINT PK_Employe PRIMARY KEY (login)
-) engine = InnoDB;
-create table Agence (
-  Identifiant VARCHAR(35) NOT NULL,
-  Nom_Agence VARCHAR(35) NOT NULL,
-  Telephone_Agence VARCHAR(15) NOT NULL,
-  Rue_Agence VARCHAR(85) NOT NULL,
-  Ville_Agence VARCHAR(45) NOT NULL,
-  Code_Postal_Agence NUMERIC(5) NOT NULL,
-  Latitude DOUBLE(8, 6),
-  -- coordonnées GPS
-  Longitude DOUBLE(8, 6),
-  -- coordonnées GPS
-  CONSTRAINT PK_Agence PRIMARY KEY (Identifiant)
-) engine = InnoDB;
-INSERT INTO
-  Clients (
-    No_Client,
-    Nom_Client,
-    Prenom_Client,
-    Email_Client,
-    Rue_Client,
-    Ville_Client,
-    Code_Postal_Client,
-    Numero_Telephone_Client
-  )
-VALUES
-  (
-    5571,
-    'PICHON',
-    'Gérard',
-    'gerard.pichon@yahoo.fr',
-    'Avenue Jean jaurès',
-    'Paris',
-    75004,
-    '0145454545'
-  );
-INSERT INTO
-  Clients (
-    No_Client,
-    Nom_Client,
-    Prenom_Client,
-    Email_Client,
-    Rue_Client,
-    Ville_Client,
-    Code_Postal_Client,
-    Numero_Telephone_Client
-  )
-VALUES
-  (
-    420,
-    'DOGG',
-    'Snoop',
-    'snoop.dogg@wanadoo.com',
-    'Rue de La Fumée',
-    'Condrieu',
-    69420,
-    '0420420420'
-  );
-COMMIT;
-SELECT
-  *
-FROM
-  Clients;
-
+DROP DATABASE IF EXISTS agency;
+DROP DATABASE IF EXISTS clients;
+DROP DATABASE IF EXISTS concern;
+DROP DATABASE IF EXISTS contact_information;
+DROP DATABASE IF EXISTS drive;
+DROP DATABASE IF EXISTS employee;
+DROP DATABASE IF EXISTS invoice;
+DROP DATABASE IF EXISTS loyalty_program;
+DROP DATABASE IF EXISTS manage;
+DROP DATABASE IF EXISTS model;
+DROP DATABASE IF EXISTS quote;
+DROP DATABASE IF EXISTS v é hicule;
+CREATE TABLE Agency(
+  identifiant CHAR(50),
+  nameAgency CHAR(50) NOT NULL,
+  capacity INT,
+  gps VARCHAR(50),
+  PRIMARY KEY(identifiant)
+);
+CREATE TABLE Model(
+  modelName VARCHAR(25),
+  price DECIMAL(3, 2),
+  category VARCHAR(10) NOT NULL,
+  brand VARCHAR(50) NOT NULL,
+  PRIMARY KEY(modelName)
+);
+CREATE TABLE Loyalty_Program(
+  programName VARCHAR(50),
+  subscriptionDate DATE,
+  expirationDate DATE,
+  reduction INT,
+  price DECIMAL(6, 2),
+  PRIMARY KEY(programName)
+);
+CREATE TABLE Contact_information(
+  contact_id INT,
+  name VARCHAR(50),
+  surname VARCHAR(50),
+  mailAddress VARCHAR(50),
+  street CHAR(50) NOT NULL,
+  city CHAR(50) NOT NULL,
+  postalCode VARCHAR(5) NOT NULL,
+  phoneNumber VARCHAR(13),
+  PRIMARY KEY(contact_id)
+);
+CREATE TABLE Clients(
+  No_Client DECIMAL(10, 0),
+  programName VARCHAR(50),
+  contact_id INT NOT NULL,
+  PRIMARY KEY(No_Client),
+  UNIQUE(contact_id),
+  FOREIGN KEY(programName) REFERENCES Loyalty_Program(programName),
+  FOREIGN KEY(contact_id) REFERENCES Contact_information(contact_id)
+);
+CREATE TABLE V é hicule(
+  registrationNumber VARCHAR(9),
+  kilometers INT,
+  manual boolean,
+  ac boolean,
+  fuel CHAR(50),
+  inlocaton boolean NOT NULL,
+  identifiant CHAR(50) NOT NULL,
+  modelName VARCHAR(25) NOT NULL,
+  PRIMARY KEY(registrationNumber),
+  FOREIGN KEY(identifiant) REFERENCES Agency(identifiant),
+  FOREIGN KEY(modelName) REFERENCES Model(modelName)
+);
+CREATE TABLE Employee(
+  Employe_id VARCHAR(50),
+  login VARCHAR(15) NOT NULL,
+  password VARCHAR(55) NOT NULL,
+  category VARCHAR(55) NOT NULL,
+  identifiant CHAR(50) NOT NULL,
+  contact_id INT NOT NULL,
+  PRIMARY KEY(Employe_id),
+  UNIQUE(contact_id),
+  FOREIGN KEY(identifiant) REFERENCES Agency(identifiant),
+  FOREIGN KEY(contact_id) REFERENCES Contact_information(contact_id)
+);
+CREATE TABLE quote(
+  quote_id INT,
+  insurance boolean,
+  takingDate DATE,
+  returnDate DATE,
+  subscribingDate DATE,
+  No_Client DECIMAL(10, 0) NOT NULL,
+  PRIMARY KEY(quote_id),
+  FOREIGN KEY(No_Client) REFERENCES Clients(No_Client)
+);
+CREATE TABLE invoice(
+  idInvoice INT,
+  fuelConsommation CHAR(50) NOT NULL,
+  vehiculeState VARCHAR(50),
+  returnDate DATE,
+  quote_id INT NOT NULL,
+  identifiant CHAR(50) NOT NULL,
+  No_Client DECIMAL(10, 0) NOT NULL,
+  PRIMARY KEY(idInvoice),
+  UNIQUE(quote_id),
+  FOREIGN KEY(quote_id) REFERENCES quote(quote_id),
+  FOREIGN KEY(identifiant) REFERENCES Agency(identifiant),
+  FOREIGN KEY(No_Client) REFERENCES Clients(No_Client)
+);
+CREATE TABLE Concern(
+  registrationNumber VARCHAR(9),
+  quote_id INT,
+  PRIMARY KEY(registrationNumber, quote_id),
+  FOREIGN KEY(registrationNumber) REFERENCES V é hicule(registrationNumber),
+  FOREIGN KEY(quote_id) REFERENCES quote(quote_id)
+);
+CREATE TABLE Drive(
+  registrationNumber VARCHAR(9),
+  Employe_id VARCHAR(50),
+  PRIMARY KEY(registrationNumber, Employe_id),
+  FOREIGN KEY(registrationNumber) REFERENCES V é hicule(registrationNumber),
+  FOREIGN KEY(Employe_id) REFERENCES Employee(Employe_id)
+);
+CREATE TABLE Manage(
+  Employe_id VARCHAR(50),
+  quote_id INT,
+  PRIMARY KEY(Employe_id, quote_id),
+  FOREIGN KEY(Employe_id) REFERENCES Employee(Employe_id),
+  FOREIGN KEY(quote_id) REFERENCES quote(quote_id)
+);
+drop user if exists 'Administrateur' @'localhost';
 CREATE USER 'Administrateur' @'localhost' IDENTIFIED BY 'Administrateur';
 GRANT ALL PRIVILEGES ON * TO 'Administrateur' @'localhost';
+COMMIT;

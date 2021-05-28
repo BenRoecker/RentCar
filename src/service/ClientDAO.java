@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ClientDAO {
 
- private String[] REQUETES = {"SELECT * FROM rentcar.clients order by clients.Prenom_client",
+ private String[] REQUETES = {"SELECT * FROM rentcar.clients natural join rentcar.contact_information order by contact_information.name",
  "SELECT * FROM rentcar.clients Where clients.Nom_client = \""};
 
 
@@ -15,7 +15,7 @@ public class ClientDAO {
   Connection con = data.getConnection();
   try{
    Statement stmt = con.createStatement();
-   ResultSet res = stmt.executeQuery(REQUETES[1] + argument + "\"");
+   ResultSet res = stmt.executeQuery(REQUETES[0]);
    while(res.next()){
     Adresse adresse = new Adresse(res.getString(5), res.getString(6), res.getInt(7));
     rendu.add(new Client(res.getString(2), res.getString(3), res.getString(4), adresse, res.getInt(8)));
@@ -24,7 +24,5 @@ public class ClientDAO {
    System.out.println(e.getMessage());
   }
   return new ClientList(rendu);
-  
  }
- 
 }
