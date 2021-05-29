@@ -5,7 +5,7 @@ import java.util.*;
 
 public class VehiculeDAO {
 
- private String[] REQUETES = {"select * from vehicule"};
+ private String[] REQUETES = {"select * from Véhicule inner join model"};
 
 public VehiculeList requete(String requete, String argument){
  List<Vehicule> rendu = new ArrayList<Vehicule>();
@@ -24,5 +24,31 @@ public VehiculeList requete(String requete, String argument){
   System.out.println(e.getMessage());
  }return new VehiculeList(rendu);
  
-}}
+}
+public void requestnew(String registrationNumber, int kilometers,boolean manual, boolean ac, String fuel, boolean inlocation, String identifiant, String modelname, int price, String category, String brand){
+ DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ Connection con = data.getConnection();
+ try{
+  CallableStatement stmt = con.prepareCall("{call new_vehicule(?,?,?,?,?,?,?,?,?,?,?)}");
+  stmt.setString(1, registrationNumber);
+  stmt.setInt(2, kilometers);
+  stmt.setBoolean(3, manual);
+  stmt.setBoolean(4, ac);
+  stmt.setString(5, fuel);
+  stmt.setBoolean(6, inlocation);
+  stmt.setString(7,identifiant);
+  stmt.setString(8,modelname);
+  stmt.setInt(9,price);
+  stmt.setString(10,category);
+  stmt.setString(11,brand);
+  stmt.execute();
+  stmt.close();
+  System.out.println("Ajout réussi.");
+ }catch(SQLException e){
+  System.out.println(e.getMessage());
+ }
+ data.close();
+}
+
+}
 
