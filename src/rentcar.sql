@@ -48,8 +48,8 @@ CREATE TABLE Contact_information(
   name VARCHAR(50),
   surname VARCHAR(50),
   mailAddress VARCHAR(50),
-  street CHAR(50) NOT NULL,
-  city CHAR(50) NOT NULL,
+  street VARCHAR(50) NOT NULL,
+  city VARCHAR(50) NOT NULL,
   postalCode VARCHAR(5) NOT NULL,
   phoneNumber VARCHAR(13),
   PRIMARY KEY(contact_id)
@@ -134,6 +134,48 @@ CREATE TABLE Manage(
   FOREIGN KEY(quote_id) REFERENCES quote(quote_id)
 );
 drop user if exists 'Administrateur' @'localhost';
+CREATE USER 'Administrateur' @'localhost' IDENTIFIED BY 'Administrateur';
+GRANT ALL PRIVILEGES ON * TO 'Administrateur' @'localhost';
+COMMIT;
+USE `rentcar`;
+DROP procedure IF EXISTS `create_contact_information`;
+DELIMITER $ $ USE `rentcar` $ $ create procedure create_contact_information(
+  name Varchar(50),
+  surname varchar(50),
+  mailAdress varchar(50),
+  street varchar(50),
+  city varchar(50),
+  postalCode Varchar(5),
+  phoneNumber varchar(13),
+  i int
+) BEGIN
+SELECT
+  count(contact_id)
+from
+  rentcar.information into i;
+insert into
+  contact_information (
+    contact_id,
+    name,
+    surname,
+    mailAddress,
+    street,
+    city,
+    postalCode,
+    phonenumber
+  )
+Values
+  (
+    i + 1,
+    name,
+    surname,
+    mailAddress,
+    street,
+    city,
+    postalCode,
+    phoneNumber
+  );
+END $ $ DELIMITER;
 CREATE USER 'Administrateur' @'localhost' IDENTIFIED BY 'Administrateur';
 GRANT ALL PRIVILEGES ON * TO 'Administrateur' @'localhost';
 COMMIT;
