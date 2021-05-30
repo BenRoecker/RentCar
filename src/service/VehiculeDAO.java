@@ -5,9 +5,9 @@ import java.util.*;
 
 public class VehiculeDAO {
 
- private String[] REQUETES = {"select * from Véhicule inner join model order by category",
- "select * from véhicule inner join model where brand =\"",
- "select * from véhicule inner join model where inlocation = true"};
+ private String[] REQUETES = {"select * from Véhicule inner join Model on Model.modelName = Véhicule.modelname order by brand;",
+ "select * from Véhicule inner join Model on Model.modelName = Véhicule.modelname where brand =\"",
+ "select * from Véhicule inner join Model on Model.modelName = Véhicule.modelname where inlocation is true"};
 
 public VehiculeList requestview(int requete, String argument){
  List<Vehicule> rendu = new ArrayList<Vehicule>();
@@ -76,5 +76,53 @@ public void requestnew(String registrationNumber, int kilometers,boolean manual,
  data.close();
 }
 
+public void requestsupp(String immat){
+ DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ Connection con = data.getConnection();
+ try{
+  CallableStatement stmt = con.prepareCall("{call supp_vehicule(?)}");
+  stmt.setString(1, immat);
+  stmt.execute();
+  stmt.close();
+  System.out.println("suppression réussi.");
+ }catch (SQLException e) {
+  System.out.println(e.getMessage());
+ }
+ data.close();
+}
+
+public void requestmodifvehicule(String immat, int kilometers, boolean inlocation){
+ DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ Connection con = data.getConnection();
+ try{
+  CallableStatement stmt = con.prepareCall("{call modif_vehicule(?,?,?)}");
+  stmt.setString(1,immat);
+  stmt.setInt(2, kilometers);
+  stmt.setBoolean(3, inlocation);
+  stmt.execute();
+   stmt.close();
+   System.out.println("Modification réussite.");
+}catch (SQLException e) {
+   System.out.println(e.getMessage());
+  }
+  data.close();
+
+}
+
+public void requestmodifmodel(String ModelName, int price){
+ DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ Connection con = data.getConnection();
+ try{
+  CallableStatement stmt = con.prepareCall("{call modif_model(?,?)}");
+  stmt.setString(1,ModelName);
+  stmt.setInt(2,price);
+  stmt.execute();
+   stmt.close();
+   System.out.println("Modification réussite.");
+}catch(SQLException e)
+{
+ System.out.println(e.getMessage());
+}data.close();
+}
 }
 

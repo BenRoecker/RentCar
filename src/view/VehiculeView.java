@@ -9,10 +9,10 @@ public class VehiculeView {
   VehiculeDAO test = new VehiculeDAO();
   //test.requestnew("890098891",0,true,false,"essence",false,"Paris","208",30,"luxe","Peugeot");
   System.out.println("Page Véhicules\n");
-  System.out.println("1. Nouveau véhicule\n2. Affichage véhicules\n3. fin");
+  System.out.println("1. Nouveau véhicule\n2. Affichage véhicules\n3. suppression d'un véhicule\n4. Modification d'un véhicule\n5. Modification du prix d'un modèle\n6. fin");
   int commande = myObj.nextInt();
   myObj.nextLine();
-  while(commande != 3){
+  while(commande != 6){
    if(commande == 1){
     System.out.println("Immatriculation :");
     String immat = myObj.nextLine();
@@ -39,9 +39,36 @@ public class VehiculeView {
     System.out.println("1. Affichage par marque\n2. recherche par marque\n3. en location");
     int commandenext = myObj.nextInt();
     myObj.nextLine();
-    System.out.println(test.requestview(1, "lol"));
+    if(commandenext == 1){
+     System.out.println(test.requestview(1, "lol"));
+    }else if(commandenext == 2){
+     System.out.println("Quelle marque voulez trouvé la voiture ?");
+     String marque = myObj.nextLine();
+     System.out.println(test.requestview(2,marque));
+    }else if(commandenext == 3){
+     System.out.println(test.requestview(3, "null"));
+    }
+   }else if(commande == 3){
+    System.out.println("Immatriculation de la voiture a supprimé :");
+    String commandenext = myObj.nextLine();
+    test.requestsupp(commandenext);
+   }else if(commande == 4){
+    System.out.println("Immatriculation de la voiture a modifié :");
+    String immat = myObj.nextLine();
+    System.out.println("kilometrage à ajouté :");
+    int kilometers = myObj.nextInt();
+    System.out.println("en location ?(true/false)");
+    boolean inlocation = myObj.nextBoolean();
+    myObj.nextLine();
+    test.requestmodifvehicule(immat, kilometers, inlocation);
+   }else if(commande == 5){
+    System.out.println("Le model a modifié :");
+    String model = myObj.nextLine();
+    System.out.println("prix par jour de la location du modèle :");
+    int price = myObj.nextInt();
+    test.requestmodifmodel(model, price);
    }
-   System.out.println("1. Nouveau véhicule\n2. Affichage véhicules\n3. fin");
+   System.out.println("1. Nouveau véhicule\n2. Affichage véhicules\n3. suppression d'un véhicule\n4. Modification d'un véhicule\n5. Modification du prix d'un modèle\n6. fin");
    commande = myObj.nextInt();
    myObj.nextLine();
   }

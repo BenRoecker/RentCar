@@ -8,10 +8,10 @@ public class ClientView {
   Scanner myObj = new Scanner(System.in);
   ClientDAO test = new ClientDAO();
   System.out.println("Page clients\n");
-  System.out.println("1. Nouveau client\n2. Affichage clients\n3. FIN");
+  System.out.println("1. Nouveau client\n2. Affichage clients\n3. Supprimer un client\n4.Modifier les information d'un client\n5. FIN");
   int commande = myObj.nextInt();
   myObj.nextLine();
-  while(commande != 3){
+  while(commande != 5){
    if(commande == 1){
      System.out.println("NOM :");
      String name = myObj.nextLine();
@@ -45,9 +45,31 @@ public class ClientView {
       System.out.println(test.requetelList(commandenext, "null"));
      }
     }else if(commande == 3){
-      break;
+     System.out.println("Id du clients à supprimmer :");
+     int commandenext = myObj.nextInt();
+     myObj.nextLine();
+     test.requetesupp(commandenext);
+    }else if(commande == 4){
+      System.out.println("Id du clients à modifier :");
+      int id = myObj.nextInt();
+      myObj.nextLine();
+      System.out.println("NOM :");
+      String name = myObj.nextLine();
+      System.out.println("Prenom :");
+      String surname = myObj.nextLine();
+      System.out.println("email :");
+      String email = myObj.nextLine();
+      System.out.println("street :");
+      String street = myObj.nextLine();
+      System.out.println("city :");
+      String city = myObj.nextLine();
+      System.out.println("Code postal :");
+      String postalcode = myObj.nextLine();
+      System.out.println("telephone :");
+      String tel = myObj.nextLine();
+      test.requetemodif(id, name, surname, email, street, city, postalcode, tel);
     }
-    System.out.println("1. Nouveau client\n2. Affichage clients\n3. FIN");
+    System.out.println("1. Nouveau client\n2. Affichage clients\n3. Supprimer un client\n4.Modifier les information d'un client\n5. FIN");
    commande = myObj.nextInt();
    myObj.nextLine();
    }
