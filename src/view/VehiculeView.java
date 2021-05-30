@@ -19,7 +19,7 @@ public class VehiculeView {
     System.out.println("marque :");
     String marque = myObj.nextLine();
     System.out.println("model :");
-    String model = myObj.nextLine();
+    String model = (myObj.nextLine()).replace("\n", "");
     System.out.println("kilometrage :");
     int kilometers = myObj.nextInt();
     System.out.println("manual ?(true/false)");

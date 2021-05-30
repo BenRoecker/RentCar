@@ -69,7 +69,7 @@ public class ClientView {
       String tel = myObj.nextLine();
       test.requetemodif(id, name, surname, email, street, city, postalcode, tel);
     }
-    System.out.println("1. Nouveau client\n2. Affichage clients\n3. Supprimer un client\n4.Modifier les information d'un client\n5. FIN");
+    System.out.println("1. Nouveau client\n2. Affichage clients\n3. Supprimer un client\n4. Modifier les information d'un client\n5. FIN");
    commande = myObj.nextInt();
    myObj.nextLine();
    }
