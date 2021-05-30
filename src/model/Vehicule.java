@@ -2,7 +2,7 @@ package model;
 
 public class Vehicule {
  
- private int immat;
+ private String immat;
  private String marque;
  private String model;
  private int kilometers;
@@ -11,7 +11,7 @@ public class Vehicule {
  private String carbu;
  private String category;
 
- public Vehicule(int immat,String marque,String model,int kilometers,boolean manual,boolean climatisation,String carbu,String category){
+ public Vehicule(String immat,String marque,String model,int kilometers,boolean manual,boolean climatisation,String carbu,String category){
   this.immat = immat;
   this.marque = marque;
   this.model = model;
@@ -24,7 +24,7 @@ public class Vehicule {
 
  @Override
  public String toString(){
-  return marque + " " + model;
+  return immat + " " + marque + " " + model + ", kilomètres :"+ kilometers + " catégorie :"+ category;
  }
 
 }

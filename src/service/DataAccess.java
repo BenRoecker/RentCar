@@ -7,9 +7,6 @@ public class DataAccess {
  public DataAccess(String url, String login, String mdp) {
   try {
    con = DriverManager.getConnection(url, login, mdp);
-   if (con != null) {
-    System.out.println("Connexion réussie !");
-   }
   } catch (Exception e) {
    System.out.println(e);
   }

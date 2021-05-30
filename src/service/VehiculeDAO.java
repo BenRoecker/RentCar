@@ -5,26 +5,52 @@ import java.util.*;
 
 public class VehiculeDAO {
 
- private String[] REQUETES = {"select * from Véhicule inner join model"};
+ private String[] REQUETES = {"select * from Véhicule inner join model order by category",
+ "select * from véhicule inner join model where brand =\"",
+ "select * from véhicule inner join model where inlocation = true"};
 
-public VehiculeList requete(String requete, String argument){
+public VehiculeList requestview(int requete, String argument){
  List<Vehicule> rendu = new ArrayList<Vehicule>();
  DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
- Connection con = data.getConnection();try
- {
-  Statement stmt = con.createStatement();
-  ResultSet res = stmt.executeQuery(REQUETES[1] + argument + "\"");
-  while (res.next()) {
-   //Adresse adresse = new Adresse(res.getString(5), res.getString(6), res.getInt(7));
-   //rendu.add(new Vehicule(res.getString(2), res.getString(3), res.getString(4), adresse, res.getInt(8)));
+ Connection con = data.getConnection();
+ if(requete == 1){
+  try {
+   Statement stmt = con.createStatement();
+   ResultSet res = stmt.executeQuery(REQUETES[0]);
+   while (res.next()) {
+    rendu.add(new Vehicule(res.getString(1), res.getString(12), res.getString(8), res.getInt(2), res.getBoolean(3),
+      res.getBoolean(4), res.getString(5), res.getString(11)));
+   }
+  } catch (SQLException e) {
+   System.out.println(e.getMessage());
   }
- }catch(
- SQLException e)
- {
-  System.out.println(e.getMessage());
- }return new VehiculeList(rendu);
- 
+ }else if(requete == 2){
+  try {
+   Statement stmt = con.createStatement();
+   ResultSet res = stmt.executeQuery(REQUETES[1]+ argument + "\";");
+   while (res.next()) {
+    rendu.add(new Vehicule(res.getString(1), res.getString(12), res.getString(8), res.getInt(2), res.getBoolean(3),
+      res.getBoolean(4), res.getString(5), res.getString(11)));
+   }
+  } catch (SQLException e) {
+   System.out.println(e.getMessage());
+  }
+ }else if(requete == 3){
+  try {
+   Statement stmt = con.createStatement();
+   ResultSet res = stmt.executeQuery(REQUETES[2]);
+   while (res.next()) {
+    rendu.add(new Vehicule(res.getString(1), res.getString(12), res.getString(8), res.getInt(2), res.getBoolean(3),
+      res.getBoolean(4), res.getString(5), res.getString(11)));
+   }
+  } catch (SQLException e) {
+   System.out.println(e.getMessage());
+  }
+ }
+ return new VehiculeList(rendu);
 }
+
+
 public void requestnew(String registrationNumber, int kilometers,boolean manual, boolean ac, String fuel, boolean inlocation, String identifiant, String modelname, int price, String category, String brand){
  DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
  Connection con = data.getConnection();

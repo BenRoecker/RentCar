@@ -17,29 +17,28 @@ public class ClientDAO {
   try{
    PreparedStatement stmt;
    ResultSet res;
-   switch(requete){
-    case 1:
+   if(requete == 1){
      stmt = con.prepareStatement(REQUETES[0]);
      res = stmt.executeQuery();
      while (res.next()) {
       Adresse adresse = new Adresse(res.getString(5), res.getString(6), res.getInt(7));
-      rendu.add(new Client(res.getString(2), res.getString(3), res.getString(4), adresse, res.getInt(8)));
+      rendu.add(new Client(res.getInt(1),res.getString(2), res.getString(3), res.getString(4), adresse, res.getInt(8)));
      }
-    case 2:
-     stmt = con.prepareStatement(REQUETES[1]+argument+"\"");
+   }else if(requete == 2){
+    stmt = con.prepareStatement(REQUETES[1]+argument+"\"");
      res = stmt.executeQuery();
      while (res.next()) {
       Adresse adresse = new Adresse(res.getString(5), res.getString(6), res.getInt(7));
-      rendu.add(new Client(res.getString(2), res.getString(3), res.getString(4), adresse, res.getInt(8)));
+      rendu.add(new Client(res.getInt(1),res.getString(2), res.getString(3), res.getString(4), adresse, res.getInt(8)));
      }
-    case 3:
-     stmt = con.prepareStatement(REQUETES[2]);
+   }else if(requete == 3){
+    stmt = con.prepareStatement(REQUETES[2]);
      res = stmt.executeQuery();
      while (res.next()) {
       Adresse adresse = new Adresse(res.getString(5), res.getString(6), res.getInt(7));
-      rendu.add(new Client(res.getString(2), res.getString(3), res.getString(4), adresse, res.getInt(8)));
+      rendu.add(new Client(res.getInt(1),res.getString(2), res.getString(3), res.getString(4), adresse, res.getInt(8)));
      }
-   } 
+   }
   }catch(SQLException e){
    System.out.println(e.getMessage());
   }
@@ -52,7 +51,7 @@ public class ClientDAO {
   DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
   Connection con = data.getConnection();
   try{
-   CallableStatement stmt = con.prepareCall("{call create_contact_information(?,?,?,?,?,?,?)}");
+   CallableStatement stmt = con.prepareCall("{call new_client(?,?,?,?,?,?,?)}");
   stmt.setString(1, name);
   stmt.setString(2, surname);
   stmt.setString(3, email);

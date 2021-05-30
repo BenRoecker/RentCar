@@ -1,13 +1,15 @@
 package model;
 
 public class Client {
+ private int id;
  private String Name;
  private String Surname;
  private String Email;
  private Adresse adresse;
  private int PhoneNumber;
  
- public Client(String Name, String Surname, String Email, Adresse adresse, int PhoneNumber) {
+ public Client(int id,String Name, String Surname, String Email, Adresse adresse, int PhoneNumber) {
+  this.id = id;
   this.adresse = adresse;
   this.Name = Name;
   this.Surname = Surname;
@@ -17,7 +19,7 @@ public class Client {
 
  @Override
  public String toString() {
-  return this.Surname + " " + this.Name + " : " + this.Email + this.adresse + " appel :" + String.valueOf(this.PhoneNumber);
+  return String.valueOf(this.id) + " " + this.Surname + " " + this.Name + " : " + this.Email + this.adresse + " appel :" + String.valueOf(this.PhoneNumber);
  }
 
 }
