@@ -9,9 +9,14 @@ public class VehiculeDAO {
  "select * from Véhicule inner join Model on Model.modelName = Véhicule.modelname where brand =\"",
  "select * from Véhicule inner join Model on Model.modelName = Véhicule.modelname where inlocation is true"};
 
+ private String url;
+ public VehiculeDAO(String url){
+    this.url = url;
+ }
+
 public VehiculeList requestview(int requete, String argument){
  List<Vehicule> rendu = new ArrayList<Vehicule>();
- DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
  Connection con = data.getConnection();
  if(requete == 1){
   try {
@@ -52,7 +57,7 @@ public VehiculeList requestview(int requete, String argument){
 
 
 public void requestnew(String registrationNumber, int kilometers,boolean manual, boolean ac, String fuel, boolean inlocation, String identifiant, String modelname, int price, String category, String brand){
- DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
  Connection con = data.getConnection();
  try{
   CallableStatement stmt = con.prepareCall("{call new_vehicule(?,?,?,?,?,?,?,?,?,?,?)}");
@@ -77,7 +82,7 @@ public void requestnew(String registrationNumber, int kilometers,boolean manual,
 }
 
 public void requestsupp(String immat){
- DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
  Connection con = data.getConnection();
  try{
   CallableStatement stmt = con.prepareCall("{call supp_vehicule(?)}");
@@ -92,7 +97,7 @@ public void requestsupp(String immat){
 }
 
 public void requestmodifvehicule(String immat, int kilometers, boolean inlocation){
- DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
  Connection con = data.getConnection();
  try{
   CallableStatement stmt = con.prepareCall("{call modif_vehicule(?,?,?)}");
@@ -110,7 +115,7 @@ public void requestmodifvehicule(String immat, int kilometers, boolean inlocatio
 }
 
 public void requestmodifmodel(String ModelName, int price){
- DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
  Connection con = data.getConnection();
  try{
   CallableStatement stmt = con.prepareCall("{call modif_model(?,?)}");

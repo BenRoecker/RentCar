@@ -4,9 +4,15 @@ import java.util.Scanner;
 
 public class VehiculeView {
 
+ private String url;
+
+ public VehiculeView(String url){
+  this.url = url;
+ }
+
  public void affichervehicule(){
   Scanner myObj = new Scanner(System.in);
-  VehiculeDAO test = new VehiculeDAO();
+  VehiculeDAO test = new VehiculeDAO(this.url);
   //test.requestnew("890098891",0,true,false,"essence",false,"Paris","208",30,"luxe","Peugeot");
   System.out.println("Page Véhicules\n");
   System.out.println("1. Nouveau véhicule\n2. Affichage véhicules\n3. suppression d'un véhicule\n4. Modification d'un véhicule\n5. Modification du prix d'un modèle\n6. fin");

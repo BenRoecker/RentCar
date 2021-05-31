@@ -3,10 +3,13 @@ import java.util.Scanner;
 public class HomeView {
 
   public void afficherhomepage(){
-   LocationView location = new LocationView();
-   ClientView client = new ClientView();
-   VehiculeView vehicule = new VehiculeView();
-   Scanner myObj = new Scanner(System.in);
+    Scanner myObj = new Scanner(System.in);
+    System.out.println("URL de la base de donnée");
+    String url = myObj.nextLine();
+   LocationView location = new LocationView(url);
+   ClientView client = new ClientView(url);
+   VehiculeView vehicule = new VehiculeView(url);
+   
    System.out.println("________________Home Page_________________");
    System.out.println("1. Louer un véhicule\n2. Gestion des Véhicules\n3. Gestion des Clients\n4. FIN");
    int commande = myObj.nextInt();

@@ -9,8 +9,13 @@ public class LocationDAO {
 "SELECT * FROM rentcar.contact_information natural join clients Where No_Client = \"",
    "SELECT * from quote where quote_id = \"","select * from invoice where No_Client =\""};
 
+   private String url;
+   public LocationDAO(String url){
+     this.url = url;
+   }
+
  public void requetenewquote(boolean insurance,LocalDate startingDate,LocalDate returnDate, int No_Client, String modelName, String identifiant){
-  DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+  DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
   Connection con = data.getConnection();
   int id_devis = 0;
  try{
@@ -31,7 +36,7 @@ public class LocationDAO {
  }System.out.println(id_devis);
 }
 public void requetenewinvoice(int fuelConsommation,int VehiculeState, String identifiant, int No_Client){
- DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
   Connection con = data.getConnection();
  try{
   CallableStatement stmt = con.prepareCall("{call new_facture(?,?,?,?,?)}");
@@ -49,7 +54,7 @@ public void requetenewinvoice(int fuelConsommation,int VehiculeState, String ide
 
 
 public quotes getquote(int No_Client){
- DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+ DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
  Connection con = data.getConnection();
  quotes lol = null;
  try{
@@ -85,7 +90,7 @@ public quotes getquote(int No_Client){
 }
 
 public invoice getinvoice(int No_client){
-  DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+  DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
   Connection con = data.getConnection();
   invoice rendu = null;
   try{

@@ -3,10 +3,16 @@ import service.*;
 import java.util.Scanner;
 
 public class ClientView {
+
+  private String url;
+
+  public ClientView(String url){
+    this.url = url;
+  }
  
  public void afficherclient(){
   Scanner myObj = new Scanner(System.in);
-  ClientDAO test = new ClientDAO();
+  ClientDAO test = new ClientDAO(url);
   System.out.println("Page clients\n");
   System.out.println("1. Nouveau client\n2. Affichage clients\n3. Supprimer un client\n4.Modifier les information d'un client\n5. FIN");
   int commande = myObj.nextInt();

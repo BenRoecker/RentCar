@@ -5,8 +5,13 @@ import java.util.Scanner;
 import service.LocationDAO;
 public class LocationView {
  
+  private String url;
+  public LocationView(String url){
+    this.url = url;
+  }
+
  public void afficher(){
-  LocationDAO fine = new LocationDAO();
+  LocationDAO fine = new LocationDAO(this.url);
   Scanner myObj = new Scanner(System.in);
   System.out.println("Page de locations");
   System.out.println("1. Louer un modèle de voiture\n2. rendre un véhicule\n3. Devis en cours pour un client\n4. Dernière facture\n5. fin");

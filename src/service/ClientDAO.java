@@ -9,10 +9,14 @@ public class ClientDAO {
  "SELECT * FROM rentcar.contact_information natural join clients Where contact_information.name = \"",
   "SELECT * FROM rentcar.contact_information natural join clients where No_Client not in (select No_client from quote);"};
 
+  private String url;
+  public ClientDAO(String url){
+    this.url = url;
+  }
 
  public ClientList requetelList(int requete, String argument){
   List<Client> rendu = new ArrayList<Client>();
-  DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+  DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
   Connection con = data.getConnection();
   try{
    PreparedStatement stmt;
@@ -48,7 +52,7 @@ public class ClientDAO {
 
 
  public void requetenew(String requete, String name, String surname, String email, String street, String city, String postalCode, String tel) {
-  DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+  DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
   Connection con = data.getConnection();
   try{
    CallableStatement stmt = con.prepareCall("{call new_client(?,?,?,?,?,?,?)}");
@@ -69,7 +73,7 @@ public class ClientDAO {
  }
 
  public void requetesupp(int id){
-  DataAccess data = new DataAccess("jdbc:mysql://localhost:3306/rentcar", "Administrateur", "Administrateur");
+  DataAccess data = new DataAccess(this.url, "Administrateur", "Administrateur");
   Connection con = data.getConnection();
   try{
    CallableStatement stmt = con.prepareCall("{call supp_client(?)}");
