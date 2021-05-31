@@ -73,7 +73,6 @@ public class ClientView {
    commande = myObj.nextInt();
    myObj.nextLine();
    }
-   myObj.close();
    
   }
   

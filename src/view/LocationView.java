@@ -61,7 +61,7 @@ public class LocationView {
      "1. Louer un modèle de voiture\n2. rendre un véhicule\n3. Devis en cours pour un client\n4. Dernière facture\n5. fin");
    commande = myObj.nextInt();
    }
-   myObj.close();
+
   
   
  }
