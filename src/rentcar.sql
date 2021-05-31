@@ -342,51 +342,38 @@ END $ $ DELIMITER;
 USE `rentcar`;
 DROP procedure IF EXISTS `new_quote`;
 USE `rentcar`;
-DROP procedure IF EXISTS `new_quote`;
-USE `rentcar`;
-DROP procedure IF EXISTS `rentcar`.`new_quote`;
+DROP procedure IF EXISTS `rentcar`.`new_quote`;;
 DELIMITER $ $ USE `rentcar` $ $ CREATE DEFINER = `root` @`localhost` PROCEDURE `new_quote`(
   insurance boolean,
   takingDate Date,
   returnDate Date,
   subscribingDate Date,
   days int,
-  nClient int,
+  No_Client int,
   model Varchar(50),
   identification VARCHAR(50)
 ) BEGIN DECLARE i,
 l INT;
 DECLARE g VARCHAR(9);
 SELECT
-  count(registrationNumber)
+  max(quote_id)
 from
-  rentcar.V é hicule
-where
-  identifiant = identification
-  and inlocation is false
-  and modelName = model into i;
-if i = 0 then
+  rentcar.quote into i;
+if i is null then
 SELECT
-  registrationNumber
+  count(quote_id)
 from
-  rentcar.V é hicule
-where
-  inlocation = false
-  and modelName = model
-limit
-  1 into g;
-  ELSE
-SELECT
-  registrationNumber
-from
-  rentcar.V é hicule
-where
-  identifiant = identification
-  and inlocation is false
-  and modelName = model
-limit
-  1 into g;
+  rentcar.quote into i;
 end if;
+SELECT
+  registrationNumber
+from
+  rentcar.V é hicule
+where
+  inlocation is false
+  and modelName = model
+limit
+  1 into g;
 SELECT
   price
 from
@@ -402,7 +389,7 @@ insert into
     subscribingDate,
     announceprice,
     registrationNumber,
-    No_Client
+    No_client
   )
 values
   (
@@ -413,15 +400,16 @@ values
     subscribingDate,
     l * days,
     g,
-    nClient
+    No_Client
   );
 update
-  V é hicule
+  v é hicule
 set
-  inlocation = false
+  inlocation = true
 where
   registrationNumber = g;
 END $ $ DELIMITER;;
+DELIMITER;;
 USE `rentcar`;
 DROP procedure IF EXISTS `new_facture`;
 DELIMITER $ $ USE `rentcar` $ $ CREATE PROCEDURE `new_facture` (
@@ -477,34 +465,78 @@ values(
     identifiant,
     nClient
   );
+update
+  v é hicule
+set
+  inlocation = false
+where
+  registrationNumber = l;
 END $ $ DELIMITER;
 commit;
 insert into
   agency(identifiant, nameAgency, capacity, gps)
 values("Paris", "Peugeot", 40, "1010");
+insert into
+  agency(identifiant, nameAgency, capacity, gps)
+values("Strasbourg", "Citroën", 50, "2020");
+call new_client(
+    "Roecker",
+    "Benjamin",
+    "Benjamin.roecker@outlook.fr",
+    "Molière",
+    "Paris",
+    78100,
+    "0987654321"
+  );
+call new_client(
+    "Gueguen",
+    "Merwan",
+    "Merwan.gueguen@efrei.net",
+    "De la Lune",
+    "Villejuif",
+    "94230",
+    "0987654321"
+  );
+call new_vehicule(
+    "90-YUI-TR",
+    10,
+    1,
+    1,
+    "SP95",
+    0,
+    "Strasbourg",
+    "208",
+    90,
+    "Luxe",
+    "Peugeot"
+  );
+call new_vehicule(
+    "89-780-BR",
+    10,
+    1,
+    1,
+    "SP95",
+    0,
+    "Paris",
+    "208",
+    80,
+    "Luxe",
+    "Peugeot"
+  );
+call new_vehicule(
+    "90-780-BR",
+    10,
+    1,
+    1,
+    "SP95",
+    0,
+    "Paris",
+    "Megane",
+    80,
+    "Confort",
+    "Reunault"
+  );
 select
   *
 from
-  invoice;
-select
-  *
-from
-  V é hicule
-  inner join Model on Model.modelName = V é hicule.modelname;
-select
-  *
-from
-  contact_information natural
-  join clients
-order by
-  contact_information.name;
-SELECT
-  registrationNumber
-from
-  rentcar.V é hicule
-where
-  identifiant = "Paris"
-  and inlocation = false
-  and modelName = "208"
-limit
-  1;
+  Model;
