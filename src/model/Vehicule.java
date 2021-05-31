@@ -24,7 +24,12 @@ public class Vehicule {
 
  @Override
  public String toString(){
-  return immat + " " + marque + " " + model + ", kilomètres :"+ kilometers + " catégorie :"+ category;
+  return "Voiture :"+ String.valueOf(immat) + "\n" + marque + " | " + model + 
+  "\nkilomètres: "+ kilometers + 
+  "\nCatégorie: "+ category + "\n"+
+  "climatisation: "+ String.valueOf(climatisation) +
+  "carburant: " + carbu+
+  "Boite manuel: "+ String.valueOf(manual);
  }
 
 }

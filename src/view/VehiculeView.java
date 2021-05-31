@@ -72,5 +72,6 @@ public class VehiculeView {
    commande = myObj.nextInt();
    myObj.nextLine();
   }
+  myObj.close();
  }
 }

@@ -19,7 +19,7 @@ public class Client {
 
  @Override
  public String toString() {
-  return String.valueOf(this.id) + " " + this.Surname + " " + this.Name + " : " + this.Email + this.adresse + " appel :" + String.valueOf(this.PhoneNumber);
+  return "Client n°" + String.valueOf(this.id) + "\n" + this.Surname + " " + this.Name + "\nEmail address :" + this.Email +"\nAdresse :"+ this.adresse + "\nN° de téléphone :" + String.valueOf(this.PhoneNumber);
  }
 
 }
