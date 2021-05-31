@@ -1,0 +1,16 @@
+Véhicule = (registrationNumber VARCHAR(9), kilometers INT, manual LOGICAL, ac LOGICAL, fuel CHAR(50), inlocaton LOGICAL);
+Employee = (Employe_id VARCHAR(50), login VARCHAR(15), password VARCHAR(55), category LOGICAL);
+Agency = (identifiant CHAR(50), nameAgency CHAR(50), capacity INT, gps VARCHAR(50), #registrationNumber);
+Model = (modelName VARCHAR(25), price DECIMAL(3,2), category VARCHAR(10), brand VARCHAR(50), #registrationNumber);
+quote = (quote_id INT, insurance LOGICAL, takingDate DATE, returnDate DATE, subscribingDate DATE);
+invoice = (idInvoice INT, fuelConsommation CHAR(50), vehiculeState VARCHAR(50), returnDate DATE, #identifiant);
+Loyalty_Program = (programName VARCHAR(50), subscriptionDate DATE, expirationDate DATE, reduction INT, price DECIMAL(6,2));
+Contact_information = (contact_id INT, name VARCHAR(50), surname VARCHAR(50), mailAddress VARCHAR(50), street CHAR(50), city CHAR(50), postalCode VARCHAR(5), phoneNumber VARCHAR(13));
+Clients = (No_Client DECIMAL(10,0), #idInvoice, #quote_id);
+Subscribe = (#No_Client, #programName);
+Have = (#No_Client, #contact_id);
+Concern = (#registrationNumber, #quote_id);
+Have1 = (#Employe_id, #contact_id);
+Hire = (#Employe_id, #identifiant);
+Drive = (#registrationNumber, #Employe_id);
+Manage = (#Employe_id, #quote_id);
